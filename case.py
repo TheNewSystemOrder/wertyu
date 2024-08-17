@@ -16,9 +16,16 @@ def get_time(date):
         return -1
 df['Time'] = df['Datum'].apply(get_time)
 def status_mission(mission):
-    if mission[-1] == "Success":
-        return int(mission[1])
-    if mission[-1] == 'Failure':
-        return int(mission[0])
+    if mission == "Success":
+        return 1
+    if mission == 'Failure':
+        return 0
+    if mission== 'Partial Failure':
+        return -1
+    if mission == 'Prelaunch Failure':
+        return -2
+df['Status Mission'] = df['Status Mission'].apply(status_mission) 
 df.info()
 df.to_csv('cleaned.csv')
+df.plot(x = 'Time', y = 'Status Mission', kind = 'scatter')
+plt.show()
